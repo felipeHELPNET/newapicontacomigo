@@ -4,7 +4,7 @@ async function connectDatabase() {
 
     try {
 
-        await mongoose.connect('mongodb+srv://contacomigo:Zyg6fUDpVAZMRl32@cluster0.bcizinl.mongodb.net/?retryWrites=true&w=majority')
+        await mongoose.connect(process.env.MONGODB_URI)
 
         console.log("MondoDB OK")
 
