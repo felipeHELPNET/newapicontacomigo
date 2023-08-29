@@ -4,7 +4,10 @@ const createService = (body) => Valors.create(body);
 
 const findAllService = (offset, limit) => Valors.find().sort({_id: -1}).skip(offset).limit(limit).populate("user");
 
+const countValors = () => Valors.countDocuments();
+
 export {
     createService,
-    findAllService
+    findAllService,
+    countValors
 };
