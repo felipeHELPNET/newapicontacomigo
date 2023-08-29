@@ -18,7 +18,8 @@ export const validID = (req, res, next) => {
 export const validUser = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const user = await userService.findByIdService(id);
+
+    const user = await userService.findByIdUserService(id);
 
     if (!user) {
       return res.status(400).send({ message: "Usuário não encontrado" });

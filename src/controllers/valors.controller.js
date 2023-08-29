@@ -15,7 +15,7 @@ const create = async (req, res) => {
       description,
       nature,
       valor,
-      user: { _id: "64d545ba84a0cf54057ae6a8" },
+      user: req.user,
     });
 
     res.send(201);
