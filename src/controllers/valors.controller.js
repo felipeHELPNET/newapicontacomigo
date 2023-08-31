@@ -4,6 +4,9 @@ import {
   countValors,
   topValorsService,
   findByIdService,
+  searchByTitleService,
+  byUserService,
+  updateService,
 } from "../services/valors.service.js";
 
 const create = async (req, res) => {
@@ -121,10 +124,83 @@ const findById = async (req, res) => {
         nature: valors.nature,
         userName: valors.user.name,
       },
-    });    
+    });
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
 };
 
-export { create, findAll, topValors, findById };
+const searchByTitle = async (req, res) => {
+  try {
+    const { title } = req.query;
+    const valors = await searchByTitleService(title);
+
+    if (!valors.length === 0) {
+      return res
+        .status(400)
+        .send({ message: "Não existe Operações com este título" });
+    }
+
+    return res.send({
+      results: valors.map((item) => ({
+        id: item._id,
+        title: item.title,
+        description: item.description,
+        valor: item.valor,
+        nature: item.nature,
+        userName: item.user.name,
+      })),
+    });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+const byUser = async (req, res) => {
+  try {
+    const id = req.userId;
+    const valors = await byUserService(id);
+
+    return res.send({
+      results: valors.map((item) => ({
+        id: item._id,
+        title: item.title,
+        description: item.description,
+        valor: item.valor,
+        nature: item.nature,
+        userName: item.user.name,
+      })),
+    });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+const update = async (req, res) => {
+  try {
+    const { title, description, nature, valor } = req.body;
+    const { id } = req.params;
+
+    if (!title && !description && !nature && !valor) {
+      res
+        .status(400)
+        .send({ message: "Indique algum dado para ser atualizado!" });
+    }
+
+    const valor = findByIdService(id);
+
+    if (valor.user._id !== req.userID) {
+      return res.status(400).send({
+        message: "Somente o usuário que cadastrou a operação pode edita-la",
+      });
+    }
+
+    await updateService(id, title, description, nature, valor);
+
+    return res.send({ message: "Dados atualizados com sucesso" });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+export { create, findAll, topValors, findById, searchByTitle, byUser, update };

@@ -14,7 +14,7 @@ export const authMiddleware = (req, res, next) => {
     const parts = authorization.split(" ");
 
     if (parts.length !== 2) {
-      return res.send(401);
+      return res.sendStatus(401);
     }
 
     const [schema, token] = parts;
