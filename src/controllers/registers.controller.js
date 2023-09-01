@@ -207,20 +207,28 @@ const update = async (req, res) => {
 const erase = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(`ID: ${id}`);
 
     const registers = await findByIdService(id);
+    console.log(`Registro encontrado:`, registers)
+
+    console.log(`String(registers.user._id): ${String(registers.user._id)}`);
+console.log(`req.userID: ${req.userID}`);
 
     if (String(registers.user._id) !== req.userID) {
       return res
         .status(400)
-        .send({ message: "Você não pode alterar este registro!" });
+        .send({ message: "Você não pode deletar este registro!" });
     }
 
     await eraseService(id);
 
+    console.log(`Registro com ID ${id} foi excluído com sucesso.`);
+
     return res.send({message: "Registro deletado com sucesso!"})
 
   } catch (err) {
+    console.error(`Erro ao processar a solicitação: ${err.message}`)
     res.status(500).send({ message: err.message });
   }
 };

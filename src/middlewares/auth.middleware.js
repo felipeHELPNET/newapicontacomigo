@@ -35,7 +35,7 @@ export const authMiddleware = (req, res, next) => {
       }
 
       req.user = user;
-      req.userId = user.id;
+      req.userID = user.id;
 
       return next();
     });
