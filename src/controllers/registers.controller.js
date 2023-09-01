@@ -1,13 +1,14 @@
 import {
   createService,
   findAllService,
-  countValors,
-  topValorsService,
+  countRegisters,
+  topRegistersService,
   findByIdService,
   searchByTitleService,
   byUserService,
   updateService,
-} from "../services/valors.service.js";
+  eraseService,
+} from "../services/registers.service.js";
 
 const create = async (req, res) => {
   try {
@@ -48,8 +49,8 @@ const findAll = async (req, res) => {
       offset = 0;
     }
 
-    const valors = await findAllService(offset, limit);
-    const total = await countValors();
+    const registers = await findAllService(offset, limit);
+    const total = await countRegisters();
     const currentUrl = req.baseUrl;
 
     const next = offset + limit;
@@ -62,8 +63,8 @@ const findAll = async (req, res) => {
         ? `${currentUrl}?limit=${limit}&offset=${previous}`
         : null;
 
-    if (valors.length === 0) {
-      return res.status(400).send({ message: "Sem operações cadastradas" });
+    if (registers.length === 0) {
+      return res.status(400).send({ message: "Sem registros cadastrados" });
     }
     res.send({
       nextUrl,
@@ -72,7 +73,7 @@ const findAll = async (req, res) => {
       offset,
       total,
 
-      results: valors.map((item) => ({
+      results: registers.map((item) => ({
         id: item._id,
         title: item.title,
         description: item.description,
@@ -86,22 +87,22 @@ const findAll = async (req, res) => {
   }
 };
 
-const topValors = async (req, res) => {
+const topRegisters = async (req, res) => {
   try {
-    const valors = await topValorsService();
+    const register = await topRegistersService();
 
-    if (!valors) {
-      return res.status(400).send({ message: "Sem TOPNEWS registrada!" });
+    if (!register) {
+      return res.status(400).send({ message: "Sem NEWS registrada!" });
     }
 
     res.send({
-      valors: {
-        id: valors._id,
-        title: valors.title,
-        description: valors.description,
-        valor: valors.valor,
-        nature: valors.nature,
-        userName: valors.user.name,
+      register: {
+        id: register._id,
+        title: register.title,
+        description: register.description,
+        valor: register.valor,
+        nature: register.nature,
+        userName: register.user.name,
       },
     });
   } catch (err) {
@@ -113,16 +114,16 @@ const findById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const valors = await findByIdService(id);
+    const registers = await findByIdService(id);
 
     return res.send({
-      valors: {
-        id: valors._id,
-        title: valors.title,
-        description: valors.description,
-        valor: valors.valor,
-        nature: valors.nature,
-        userName: valors.user.name,
+      registers: {
+        id: registers._id,
+        title: registers.title,
+        description: registers.description,
+        valor: registers.valor,
+        nature: registers.nature,
+        userName: registers.user.name,
       },
     });
   } catch (err) {
@@ -133,16 +134,16 @@ const findById = async (req, res) => {
 const searchByTitle = async (req, res) => {
   try {
     const { title } = req.query;
-    const valors = await searchByTitleService(title);
+    const registers = await searchByTitleService(title);
 
-    if (!valors.length === 0) {
+    if (!registers.length === 0) {
       return res
         .status(400)
-        .send({ message: "Não existe Operações com este título" });
+        .send({ message: "Não existe Registro com este título" });
     }
 
     return res.send({
-      results: valors.map((item) => ({
+      results: registers.map((item) => ({
         id: item._id,
         title: item.title,
         description: item.description,
@@ -159,10 +160,10 @@ const searchByTitle = async (req, res) => {
 const byUser = async (req, res) => {
   try {
     const id = req.userId;
-    const valors = await byUserService(id);
+    const register = await byUserService(id);
 
     return res.send({
-      results: valors.map((item) => ({
+      results: register.map((item) => ({
         id: item._id,
         title: item.title,
         description: item.description,
@@ -184,23 +185,53 @@ const update = async (req, res) => {
     if (!title && !description && !nature && !valor) {
       res
         .status(400)
-        .send({ message: "Indique algum dado para ser atualizado!" });
+        .send({ message: "Indique algum dado do registro á ser atualizado!" });
     }
 
-    const valor = findByIdService(id);
+    const register = await findByIdService(id);
 
-    if (valor.user._id !== req.userID) {
+    if (String(register.user._id) !== req.userID) {
       return res.status(400).send({
-        message: "Somente o usuário que cadastrou a operação pode edita-la",
+        message: "Somente o usuário que cadastrou o registro pode edita-la",
       });
     }
 
     await updateService(id, title, description, nature, valor);
 
-    return res.send({ message: "Dados atualizados com sucesso" });
+    return res.send({ message: "Registro atualizado com sucesso" });
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
 };
 
-export { create, findAll, topValors, findById, searchByTitle, byUser, update };
+const erase = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const registers = await findByIdService(id);
+
+    if (String(registers.user._id) !== req.userID) {
+      return res
+        .status(400)
+        .send({ message: "Você não pode alterar este registro!" });
+    }
+
+    await eraseService(id);
+
+    return res.send({message: "Registro deletado com sucesso!"})
+
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+export {
+  create,
+  findAll,
+  topRegisters,
+  findById,
+  searchByTitle,
+  byUser,
+  update,
+  erase,
+};

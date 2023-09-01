@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const ValorsSchema = new mongoose.Schema({
+const RegistersSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -28,6 +28,6 @@ const ValorsSchema = new mongoose.Schema({
   },
 });
 
-const Valors = mongoose.model("Valor", ValorsSchema);
+const Registers = mongoose.model("Register", RegistersSchema);
 
-export default Valors;
+export default Registers;
