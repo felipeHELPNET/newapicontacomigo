@@ -31,6 +31,18 @@ const updateService = (id, title, description, nature, valor) =>
 
 const eraseService = (id) => Registers.findByIdAndDelete({ _id: id });
 
+const likeRegistersService = (idRegister, userID) =>
+  Registers.findOneAndUpdate(
+    { _id: idRegister, "likes.userID": { $nin: [userID] } },
+    { $push: { likes: { userID, created: new Date() } } }
+  );
+
+const deleteLikeRegistersService = (idRegister, userID) =>
+  Registers.findOneAndUpdate(
+    { _id: idRegister },
+    { $pull: { likes: { userID } } }
+  );
+
 export {
   createService,
   findAllService,
@@ -41,4 +53,6 @@ export {
   byUserService,
   updateService,
   eraseService,
+  likeRegistersService,
+  deleteLikeRegistersService,
 };

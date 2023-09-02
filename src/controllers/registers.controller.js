@@ -8,6 +8,8 @@ import {
   byUserService,
   updateService,
   eraseService,
+  likeRegistersService,
+  deleteLikeRegistersService,
 } from "../services/registers.service.js";
 
 const create = async (req, res) => {
@@ -79,6 +81,7 @@ const findAll = async (req, res) => {
         description: item.description,
         valor: item.valor,
         nature: item.nature,
+        likes: item.likes,
         userName: item.user.name,
       })),
     });
@@ -102,6 +105,7 @@ const topRegisters = async (req, res) => {
         description: register.description,
         valor: register.valor,
         nature: register.nature,
+        likes: register.likes,
         userName: register.user.name,
       },
     });
@@ -207,13 +211,8 @@ const update = async (req, res) => {
 const erase = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(`ID: ${id}`);
 
     const registers = await findByIdService(id);
-    console.log(`Registro encontrado:`, registers)
-
-    console.log(`String(registers.user._id): ${String(registers.user._id)}`);
-console.log(`req.userID: ${req.userID}`);
 
     if (String(registers.user._id) !== req.userID) {
       return res
@@ -223,12 +222,27 @@ console.log(`req.userID: ${req.userID}`);
 
     await eraseService(id);
 
-    console.log(`Registro com ID ${id} foi excluído com sucesso.`);
-
-    return res.send({message: "Registro deletado com sucesso!"})
-
+    return res.send({ message: "Registro deletado com sucesso!" });
   } catch (err) {
-    console.error(`Erro ao processar a solicitação: ${err.message}`)
+    res.status(500).send({ message: err.message });
+  }
+};
+
+const likeRegister = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const userID = req.userID;
+
+    const registerLiked = await likeRegistersService(id, userID);
+
+    if (!registerLiked) {
+      await deleteLikeRegistersService(id, userID);
+      return res.status(200).send({ message: "Like deletado" });
+    }
+
+    res.send({ message: "Like registrado" });
+  } catch (err) {
     res.status(500).send({ message: err.message });
   }
 };
@@ -242,4 +256,5 @@ export {
   byUser,
   update,
   erase,
+  likeRegister,
 };

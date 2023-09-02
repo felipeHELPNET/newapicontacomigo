@@ -18,13 +18,21 @@ const RegistersSchema = new mongoose.Schema({
     required: true,
   },
   createdAt: {
-  type: Date,
-  default: Date.now(),
+    type: Date,
+    default: Date.now(),
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
+  },
+  likes: {
+    type: Array,
+    required: true,
+  },
+  comments: {
+    type: Array,
+    requied: true,
   },
 });
 
