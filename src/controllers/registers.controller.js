@@ -275,6 +275,9 @@ const deleteComment = async (req, res) => {
     const { idRegister, idComment } = req.params;
     const userID = req.userID;    
 
+    console.log(typeof(idRegister));
+    console.log(typeof(idComment));
+
     const commentDelete = await deleteCommentService(idRegister, idComment, userID);
 
     console.log(commentDelete)
