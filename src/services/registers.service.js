@@ -43,6 +43,30 @@ const deleteLikeRegistersService = (idRegister, userID) =>
     { $pull: { likes: { userID } } }
   );
 
+const commentRegisterService = (idRegister, comment, userID) => {
+  let idComment = Math.floor(Date.now() * Math.random()).toString(36);
+  return Registers.findOneAndUpdate(
+    { _id: idRegister },
+    {
+      $push: {
+        comments: { idComment, userID, comment, createdAt: new Date() },
+      },
+    }
+  );
+};
+
+const deleteCommentService = (idRegister, idComment, userID) => {
+  Registers.findOneAndUpdate(
+    { _id: idRegister },
+    {
+      $pull: {
+        comments: { idComment, userID },
+      },
+    }
+  );
+};
+
+
 export {
   createService,
   findAllService,
@@ -55,4 +79,6 @@ export {
   eraseService,
   likeRegistersService,
   deleteLikeRegistersService,
+  commentRegisterService,
+  deleteCommentService,
 };

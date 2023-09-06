@@ -10,6 +10,8 @@ import {
   eraseService,
   likeRegistersService,
   deleteLikeRegistersService,
+  commentRegisterService,
+  deleteCommentService,
 } from "../services/registers.service.js";
 
 const create = async (req, res) => {
@@ -82,6 +84,7 @@ const findAll = async (req, res) => {
         valor: item.valor,
         nature: item.nature,
         likes: item.likes,
+        comments: item.comments,
         userName: item.user.name,
       })),
     });
@@ -247,6 +250,41 @@ const likeRegister = async (req, res) => {
   }
 };
 
+const commentRegister = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const userID = req.userID;
+
+    const { comment } = req.body;
+
+    if (!comment) {
+      return res.status(400).send({ message: "Digite algo para comentar!" });
+    }
+
+    await commentRegisterService(id, comment, userID);
+
+    res.send({ message: "Comentário recebido com sucesso!" });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
+const deleteComment = async (req, res) => {
+  try {
+    const { idRegister, idComment } = req.params;
+    const userID = req.userID;    
+
+    const commentDelete = await deleteCommentService(idRegister, idComment, userID);
+
+    console.log(commentDelete)
+
+    res.send({ message: "Comentário removido com sucesso!" });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+};
+
 export {
   create,
   findAll,
@@ -257,4 +295,6 @@ export {
   update,
   erase,
   likeRegister,
+  commentRegister,
+  deleteComment,
 };

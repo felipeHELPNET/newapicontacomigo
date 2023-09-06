@@ -10,6 +10,8 @@ import {
   update,
   erase,
   likeRegister,
+  commentRegister,
+  deleteComment,
 } from "../controllers/registers.controller.js";
 
 const router = Router();
@@ -23,5 +25,8 @@ router.get("/:id", authMiddleware, findById);
 router.patch("/:id", authMiddleware, update);
 router.delete("/:id", authMiddleware, erase);
 router.patch("/like/:id", authMiddleware, likeRegister);
+router.patch("/comment/:id", authMiddleware, commentRegister);
+router.patch("/comment/:idRegister/:idComment", authMiddleware, deleteComment);
+
 
 export default router;
