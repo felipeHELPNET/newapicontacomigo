@@ -273,14 +273,15 @@ const commentRegister = async (req, res) => {
 const deleteComment = async (req, res) => {
   try {
     const { idRegister, idComment } = req.params;
-    const userID = req.userID;    
+    const userID = req.userID;
 
-    console.log(typeof(idRegister));
-    console.log(typeof(idComment));
+    const commentDelete = await deleteCommentService(
+      idRegister,
+      idComment,
+      userID
+    );
 
-    const commentDelete = await deleteCommentService(idRegister, idComment, userID);
-
-    console.log(commentDelete)
+    console.log(commentDelete);
 
     res.send({ message: "Comentário removido com sucesso!" });
   } catch (err) {
