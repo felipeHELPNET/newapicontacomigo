@@ -1,0 +1,19 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ContaComigo API Documentation",
+    "description": "in this documentation you will be able to consult the API endpoints and also test all available routes. Do not forget to register and carry out the authorization",
+    "contact": {
+      "email": "felipehelpnet@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Local Server"
+    }
+  ],
+  "paths": {},
+  "components": {}
+}
