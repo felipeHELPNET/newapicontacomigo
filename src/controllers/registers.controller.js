@@ -67,9 +67,6 @@ const findAll = async (req, res) => {
         ? `${currentUrl}?limit=${limit}&offset=${previous}`
         : null;
 
-    if (registers.length === 0) {
-      return res.status(400).send({ message: "Sem registros cadastrados" });
-    }
     res.send({
       nextUrl,
       previousUrl,
