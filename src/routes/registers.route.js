@@ -16,7 +16,7 @@ import {
 
 const router = Router();
 
-router.post("/", authMiddleware, create);
+router.post("/create", authMiddleware, create);
 router.get("/", findAll);
 router.get("/top", topRegisters);
 router.get("/search", searchByTitle);

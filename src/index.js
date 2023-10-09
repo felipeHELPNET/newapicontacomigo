@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import connectDatabase from "./database/db.js";
 import dotenv from "dotenv";
 import userRoute from "./routes/user.route.js";
@@ -9,6 +10,12 @@ import swaggerRoute from "./routes/swagger.route.js";
 dotenv.config();
 
 const app = express();
+
+app.use(cors({
+    origin:"http://localhost:5173", 
+    methods:["GET", "POST", "PUT", "DELETE"],
+}))
+
 const port = process.env.PORT || 8080;
 
 connectDatabase();
