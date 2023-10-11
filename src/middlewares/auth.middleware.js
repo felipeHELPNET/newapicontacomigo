@@ -1,45 +1,32 @@
-import userService from "../services/user.service.js";
+import "dotenv/config";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-dotenv.config();
+import userRepositories from "../repositories/user.repositories.js";
 
-export const authMiddleware = (req, res, next) => {
-  try {
-    const { authorization } = req.headers;
+function authMiddleware(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader)
+    return res.status(401).send({ message: "The token was not informed!" });
 
-    if (!authorization) {
-      return res.send(401);
-    }
+  const parts = authHeader.split(" ");
+  if (parts.length !== 2)
+    return res.status(401).send({ message: "Invalid token!" });
 
-    const parts = authorization.split(" ");
+  const [scheme, token] = parts;
 
-    if (parts.length !== 2) {
-      return res.sendStatus(401);
-    }
+  if (!/^Bearer$/i.test(scheme))
+    return res.status(401).send({ message: "Malformatted Token!" });
 
-    const [schema, token] = parts;
+  jwt.verify(token, process.env.SECRET, async (err, decoded) => {
+    if (err) return res.status(401).send({ message: "Invalid token!" });
 
-    if (schema !== "Bearer") {
-      return res.send(401);
-    }
+    const user = await userRepositories.findByIdUserRepository(decoded.id);
+    if (!user || !user.id)
+      return res.status(401).send({ message: "Invalid token!" });
 
-    jwt.verify(token, process.env.SECRET_JWT, async (error, decoded) => {
-      if (error) {
-        return res.status(401).send({ message: "Token inválido" });
-      }
+    req.userId = user.id;
 
-      const user = await userService.findByIdUserService(decoded.id);
+    return next();
+  });
+}
 
-      if (!user || !user.id) {
-        return res.status(401).send({ message: "Token inválido" });
-      }
-
-      req.user = user;
-      req.userID = user.id;
-
-      return next();
-    });
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-};
+export default authMiddleware;
