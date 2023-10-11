@@ -1,24 +1,35 @@
 {
-  "name": "newapicontacomigo",
+  "name": "apicontacomigo",
   "version": "1.0.0",
-  "type": "module",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
+  "type": "module",
   "scripts": {
+<<<<<<< HEAD
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
     "start": "node index.js"
+=======
+    "start": "node --no-warnings server.js",
+    "dev": "nodemon --no-warnings server.js "
+>>>>>>> felipe
   },
-  "author": "",
+  "author": "Felipe Daniel",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+<<<<<<< HEAD
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.2",
     "npm": "^10.1.0"
+=======
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.6.1",
+    "swagger-ui-express": "^5.0.0"
+>>>>>>> felipe
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
