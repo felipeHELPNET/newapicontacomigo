@@ -56,9 +56,9 @@ async function findAllRegistersService(limit, offset, currentUrl) {
       text: register.text,
       likes: register.likes,
       comments: register.comments,
-      name: register.user.name,
-      username: register.user.username,
-      avatar: register.user.avatar,
+      // name: register.user.name,
+      // username: register.user.username,
+      // avatar: register.user.avatar,
     })),
   };
 }
