@@ -24,11 +24,11 @@ const UserSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
-    required: true,
+    required: false,
   },
   background: {
     type: String,
-    required: true,
+    required: false,
   },
 });
 
