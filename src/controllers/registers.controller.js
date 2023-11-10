@@ -196,13 +196,13 @@ const update = async (req, res) => {
 
     if (String(register.user._id) !== req.userID) {
       return res.status(400).send({
-        message: "Somente o usuário que cadastrou o registro pode edita-la",
+        message: "Somente o usuário que cadastrou o registro pode edita-lo!",
       });
     }
 
     await updateService(id, title, description, nature, valor);
 
-    return res.send({ message: "Registro atualizado com sucesso" });
+    return res.send({ message: "Registro atualizado com sucesso!" });
   } catch (err) {
     res.status(500).send({ message: err.message });
   }

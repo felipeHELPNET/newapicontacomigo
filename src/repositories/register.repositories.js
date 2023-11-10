@@ -1,7 +1,7 @@
 import Register from "../models/Register.js";
 
-function createRegisterRepository(title, banner, text, userId) {
-  return Register.create({ title, banner, text, user: userId });
+function createRegisterRepository(title, description, nature, valor, userId) {
+  return Register.create({ title, description, nature, valor, user: userId });
 }
 
 function findAllRegistersRepository(offset, limit) {
@@ -46,9 +46,10 @@ function updateRegisterRepository(id, title, banner, text) {
       _id: id,
     },
     {
-      title,
-      banner,
-      text,
+      title, 
+      description, 
+      nature, 
+      valor,
     },
     {
       rawResult: true,

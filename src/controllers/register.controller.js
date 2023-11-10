@@ -1,12 +1,12 @@
 import registerService from "../services/register.service.js";
 
 async function createRegisterController(req, res) {
-  const { title, banner, text } = req.body;
+  const { title, description, nature, valor } = req.body;
   const userId = req.userId;
 
   try {
     const register = await registerService.createRegisterService(
-      { title, banner, text },
+      { title, description, nature, valor },
       userId
     );
     return res.status(201).send(register);
@@ -79,9 +79,9 @@ async function updateRegisterController(req, res) {
   const userId = req.userId;
 
   try {
-    await registerService.updateRegisterService(id, title, banner, text, userId);
+    await registerService.updateRegisterService(id, title, description, nature, valor, userId);
 
-    return res.send({ message: "Register successfully updated!" });
+    return res.send({ message: "Registro atualizado com sucesso!" });
   } catch (e) {
     return res.status(500).send(e.message);
   }
@@ -93,7 +93,7 @@ async function deleteRegisterController(req, res) {
 
   try {
     await registerService.deleteRegisterService(id, userId);
-    return res.send({ message: "Register deleted successfully" });
+    return res.send({ message: "Registro deletado com sucesso" });
   } catch (err) {
     return res.status(500).send(e.message);
   }
@@ -121,7 +121,7 @@ async function commentRegisterController(req, res) {
     await registerService.commentRegisterService(registerId, message, userId);
 
     return res.send({
-      message: "Comment successfully completed!",
+      message: "Comentário registrado com sucesso!",
     });
   } catch (e) {
     return res.status(500).send(e.message);
@@ -129,13 +129,13 @@ async function commentRegisterController(req, res) {
 }
 
 async function commentDeleteRegisterController(req, res) {
-  const { id: RegisterId, idComment } = req.params;
+  const { id: registerId, idComment } = req.params;
   const userId = req.userId;
 
   try {
     await registerService.commentDeleteRegisterService(registerId, userId, idComment);
 
-    return res.send({ message: "Comment successfully removed" });
+    return res.send({ message: "Comentário removido com sucesso!" });
   } catch (e) {
     return res.status(500).send(e.message);
   }

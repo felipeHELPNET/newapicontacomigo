@@ -1,19 +1,19 @@
 import registerRepositories from "../repositories/register.repositories.js";
 
-async function createRegisterService({ title, banner, text }, userId) {
-  if (!title || !banner || !text)
-    throw new Error("Submit all fields for registration");
+async function createRegisterService({ title, description, nature, valor }, userId) {
+  if (!title || !description || !nature || !valor) throw new Error("Submit all fields for registration");
 
   const { id } = await registerRepositories.createRegisterRepository(
-    title,
-    banner,
-    text,
+    title, 
+    description, 
+    nature, 
+    valor,
     userId
   );
 
   return {
     message: "Register created successfully!",
-    register: { id, title, banner, text },
+    register: { id, title, description, nature, valor },
   };
 }
 
@@ -53,7 +53,9 @@ async function findAllRegistersService(limit, offset, currentUrl) {
     results: registers.map((register) => ({
       id: register._id,
       title: register.title,
-      text: register.text,
+      description: register.description, 
+      nature: register.nature, 
+      valor: register.valor,
       likes: register.likes,
       comments: register.comments,
       // name: register.user.name,

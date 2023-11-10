@@ -10,11 +10,11 @@ async function createUserService({
   
 }) {
   if (!username || !name || !email || !password)
-    throw new Error("Submit all fields for registration");
+    throw new Error("Submeta TODOS os dados para criar um novo usuário!");
 
   const foundUser = await userRepositories.findByEmailUserRepository(email);
 
-  if (foundUser) throw new Error("User already exists");
+  if (foundUser) throw new Error("Este e-mail já existe em nosso cadastro!");
 
   const user = await userRepositories.createUserRepository({
     name,
@@ -24,7 +24,7 @@ async function createUserService({
     
   });
 
-  if (!user) throw new Error("Error creating User");
+  if (!user) throw new Error("Erro ao criar usário!");
 
   const token = authService.generateToken(user.id);
 
@@ -34,7 +34,7 @@ async function createUserService({
 async function findAllUserService() {
   const users = await userRepositories.findAllUserRepository();
 
-  if (users.length === 0) throw new Error("There are no registered users");
+  if (users.length === 0) throw new Error("Sem usuários cadastrados");
 
   return users;
 }
@@ -48,11 +48,11 @@ async function findUserByIdService(userIdParam, userIdLogged) {
     idParam = userIdParam;
   }
   if (!idParam)
-    throw new Error("Send an id in the parameters to search for the user");
+    throw new Error("Envie um id nos parâmetros para procurar o usuário!");
 
   const user = await userRepositories.findByIdUserRepository(idParam);
 
-  if (!user) throw new Error("User not found");
+  if (!user) throw new Error("Usuário não encontrado!");
 
   return user;
 }
@@ -63,11 +63,11 @@ async function updateUserService(
   userIdLogged
 ) {
   if (!name && !username && !email && !password)
-    throw new Error("Submit at least one field to update the user");
+    throw new Error("Envie pelo menos um campo para atualizar o usuário!");
 
   const user = await userRepositories.findByIdUserRepository(userId);
 
-  if (user._id != userIdLogged) throw new Error("You cannot update this user");
+  if (user._id != userIdLogged) throw new Error("Você não pode atualizar este usuário!");
 
   if (password) password = await bcrypt.hash(password, 10);
 
@@ -79,7 +79,7 @@ async function updateUserService(
     password,
   );
 
-  return { message: "User successfully updated!" };
+  return { message: "Usuário atualizado com sucesso!" };
 }
 
 export default {
