@@ -9,6 +9,8 @@ async function createUserController(req, res) {
       username,
       email,
       password,
+      avatar,
+      background,
     });
     res.status(201).send(token);
   } catch (e) {
@@ -39,12 +41,12 @@ async function findUserByIdController(req, res) {
 
 async function updateUserController(req, res) {
   try {
-    const { name, username, email, password } = req.body;
+    const { name, username, email, password, avatar, background } = req.body;
     const { id: userId } = req.params;
     const userIdLogged = req.userId;
 
     const response = await userService.updateUserService(
-      { name, username, email, password },
+      { name, username, email, password, avatar, background },
       userId,
       userIdLogged
     );

@@ -26,16 +26,3 @@ app.use("/registers", registerRouter);
 app.use("/doc", swaggerRouter)
 
 app.listen(port, () => console.log(`Servidor rodando na porta ${port}`));
-
-
-
-
-
-
-// código do server.js:
-
-//import "dotenv/config";
-//import app from "./app.js";
-//
-//const port = process.env.PORT || 3001;
-//app.listen(port, () => console.log(`Server running on port: ${port}`));
