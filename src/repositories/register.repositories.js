@@ -1,16 +1,20 @@
 import Register from "../models/Register.js";
 
-function createRegisterRepository(title, description, nature, valor, userId) {
-  return Register.create({ title, description, nature, valor, user: userId });
+function createRegisterRepository(title, description, nature, valor, _id) {
+  return Register.create({ title, description, nature, valor, user: _id });
 }
 
-function findAllRegistersRepository(offset, limit) {
-  return Register.find()
-    .sort({ _id: -1 })
-    .skip(offset)
-    .limit(limit)
-    .populate("user");
+function findAllRegistersRepository() {
+  return Register.find()    
 }
+
+//function findAllRegistersRepository(offset, limit) {
+//  return Register.find()
+//    .sort({ _id: -1 })
+//    .skip(offset)
+//    .limit(limit)
+//    .populate("user");
+//}
 
 function topNewsRepository() {
   return Register.findOne().sort({ _id: -1 }).populate("user");

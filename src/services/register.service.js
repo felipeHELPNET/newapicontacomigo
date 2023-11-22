@@ -17,39 +17,15 @@ async function createRegisterService({ title, description, nature, valor }, user
   };
 }
 
-async function findAllRegistersService(limit, offset, currentUrl) {
-  limit = Number(limit);
-  offset = Number(offset);
+  async function findAllRegistersService() {
 
-  if (!limit) {
-    limit = 5;
-  }
 
-  if (!offset) {
-    offset = 0;
-  }
-
-  const registers = await registerRepositories.findAllRegistersRepository(offset, limit);
+  const registers = await registerRepositories.findAllRegistersRepository();
 
   const total = await registerRepositories.countRegisters();
 
-  const next = offset + limit;
-  const nextUrl =
-    next < total ? `${currentUrl}?limit=${limit}&offset=${next}` : null;
-
-  const previous = offset - limit < 0 ? null : offset - limit;
-  const previousUrl =
-    previous != null ? `${currentUrl}?limit=${limit}&offset=${previous}` : null;
-
-  registers.shift();
-
-  return {
-    nextUrl,
-    previousUrl,
-    limit,
-    offset,
+  return { 
     total,
-
     results: registers.map((register) => ({
       id: register._id,
       title: register.title,

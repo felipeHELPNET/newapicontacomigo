@@ -212,7 +212,7 @@
       }
     },
     "/registers/create": {
-      "register": {
+      "post": {
         "summary": "Create a new register",
         "description": "Route responsible for creating a new register",
         "tags": ["Register"],
@@ -606,11 +606,14 @@
           "title": {
             "type": "string"
           },
-          "text": {
+          "description": {
             "type": "string"
           },
+            "valor":{
+              "type": "number"
+          },
           "likes": {
-            "type": "number"
+            "type": "array"
           },
           "comments": {
             "type": "array"
