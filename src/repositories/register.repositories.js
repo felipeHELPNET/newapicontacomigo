@@ -5,7 +5,7 @@ function createRegisterRepository(title, description, nature, valor, _id) {
 }
 
 function findAllRegistersRepository() {
-  return Register.find()    
+  return Register.find().populate("user");    
 }
 
 //function findAllRegistersRepository(offset, limit) {
