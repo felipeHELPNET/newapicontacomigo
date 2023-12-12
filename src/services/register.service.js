@@ -18,10 +18,7 @@ async function createRegisterService({ title, description, nature, valor }, user
 }
 
   async function findAllRegistersService() {
-
-
   const registers = await registerRepositories.findAllRegistersRepository();
-
   const total = await registerRepositories.countRegisters();
 
   return { 
@@ -130,20 +127,34 @@ async function updateRegisterService(id, title, banner, text, userId) {
 }
 
 async function deleteRegisterService(id, userId) {
-  const register = await registerService.findRegisterByIdService(id);
+  const register = await registerRepositories.deleteRegisterRepository(id);
+
+  if (!register) {
+    throw new Error("Registro não encontrado");
+  }
+
+  if (register.user._id !== userId) {
+    throw new Error("Você não criou este registro");
+  }
+
+  return register;
+}
+
+
+/* async function deleteRegisterService(id, userId) {
+  const register = await registerRepositories.deleteRegisterRepository(id);
 
   if (!register) throw new Error("Register not found");
 
   if (register.user._id != userId) throw new Error("You didn't create this register");
-
-  await registerRepositories.deleteRegisterRepository(id);
-}
+  
+} */
 
 async function likeRegisterService(id, userId) {
   const registerLiked = await registerService.likesService(id, userId);
 
   if (registerLiked.lastErrorObject.n === 0) {
-    await registerService.likesDeleteService(id, userId);
+    await registerRepositories.likesDeleteRepository(id, userId);
     return { message: "Like successfully removed" };
   }
 

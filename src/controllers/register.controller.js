@@ -93,11 +93,32 @@ async function deleteRegisterController(req, res) {
 
   try {
     await registerService.deleteRegisterService(id, userId);
-    return res.send({ message: "Registro deletado com sucesso" });
+    return res.status(200).send({ message: "Registro deletado com sucesso" });
   } catch (err) {
-    return res.status(500).send(e.message);
+    if (err.message === "Registro não encontrado") {
+      return res.status(404).send({ error: "Registro não encontrado" });
+    }
+
+    if (err.message === "Você não criou este registro") {
+      return res.status(403).send({ error: "Você não tem permissão para excluir este registro" });
+    }
+
+    return res.status(500).send({ error: "Erro interno do servidor" });
   }
 }
+
+
+/* async function deleteRegisterController(req, res) {
+  const { id } = req.params;
+  const userId = req.userId;
+
+  try {
+    await registerService.deleteRegisterService(id, userId);
+    return res.send({ message: "Registro deletado com sucesso" });
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+} */
 
 async function likeRegisterController(req, res) {
   const { id } = req.params;

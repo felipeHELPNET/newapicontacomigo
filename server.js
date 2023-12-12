@@ -13,6 +13,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 connectDatabase();
+
 app.use(
     cors({
     origin: 'http://localhost:5173',
