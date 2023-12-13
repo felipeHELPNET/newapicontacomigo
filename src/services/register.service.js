@@ -133,22 +133,12 @@ async function deleteRegisterService(id, userId) {
     throw new Error("Registro não encontrado");
   }
 
-  if (register.user._id !== userId) {
-    throw new Error("Você não criou este registro");
-  }
+//  if (register.user._id !== userId) {
+//    throw new Error("Você não criou este registro");
+//  }
 
   return register;
 }
-
-
-/* async function deleteRegisterService(id, userId) {
-  const register = await registerRepositories.deleteRegisterRepository(id);
-
-  if (!register) throw new Error("Register not found");
-
-  if (register.user._id != userId) throw new Error("You didn't create this register");
-  
-} */
 
 async function likeRegisterService(id, userId) {
   const registerLiked = await registerService.likesService(id, userId);

@@ -87,12 +87,12 @@ async function updateRegisterController(req, res) {
   }
 }
 
-async function deleteRegisterController(req, res) {
+/*async function deleteRegisterController(req, res) {
   const { id } = req.params;
-  const userId = req.userId;
+  // const userId = req.userId;
 
   try {
-    await registerService.deleteRegisterService(id, userId);
+    await registerService.deleteRegisterService(id);
     return res.status(200).send({ message: "Registro deletado com sucesso" });
   } catch (err) {
     if (err.message === "Registro não encontrado") {
@@ -105,10 +105,10 @@ async function deleteRegisterController(req, res) {
 
     return res.status(500).send({ error: "Erro interno do servidor" });
   }
-}
+}*/
 
 
-/* async function deleteRegisterController(req, res) {
+ async function deleteRegisterController(req, res) {
   const { id } = req.params;
   const userId = req.userId;
 
@@ -118,7 +118,7 @@ async function deleteRegisterController(req, res) {
   } catch (err) {
     return res.status(500).send(err.message);
   }
-} */
+} 
 
 async function likeRegisterController(req, res) {
   const { id } = req.params;
