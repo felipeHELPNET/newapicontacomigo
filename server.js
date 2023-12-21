@@ -15,14 +15,16 @@ const port = process.env.PORT || 8080;
 connectDatabase();
 
 const allowedOrigins = [
-  'newfrontcc.vercel.app',  
-  'newfrontcc-gnet9d7cv-felipehelpnet.vercel.app'
+  'https://newfrontcc.vercel.app',  
+  'https://newfrontcc-gnet9d7cv-felipehelpnet.vercel.app'
 ];
 
 app.use(
   cors({
     origin: allowedOrigins,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    headers: '*',
+    maxAge: 86400,
     credentials: true,
   })
 );
