@@ -19,22 +19,20 @@ const allowedOrigins = [
   'https://newfrontcc-gnet9d7cv-felipehelpnet.vercel.app'
 ];
 
-app.use(
-  cors({
-    origin: allowedOrigins,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    headers: '*',
-    maxAge: 86400,
-    credentials: true,
-  })
-);
+const corsOptions = {
+  origin: allowedOrigins,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  maxAge: 86400,
+  optionsSuccessStatus: 204,
+};
 
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/user", userRoute);
 app.use("/auth", authRoute);
 app.use("/registers", registerRouter);
-app.use("/doc", swaggerRouter)
-app.use(express.static("src/assets"));
-
+app.use("/doc", swaggerRouter);
+app.use(express.static("src/assets", { extensions: ["jpg", "jpeg", "png", "gif"] }));
 
 app.listen(port, () => console.log(`Servidor rodando na porta ${port}`));
