@@ -16,6 +16,7 @@ connectDatabase();
 
 const allowedOrigins = [
   'https://newfrontcc.vercel.app',
+  'https://newfrontcc.vercel.app/auth',
   'https://newfrontcc-gnet9d7cv-felipehelpnet.vercel.app'
 ];
 
