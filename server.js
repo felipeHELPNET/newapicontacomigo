@@ -32,5 +32,7 @@ app.use("/user", userRoute);
 app.use("/auth", authRoute);
 app.use("/registers", registerRouter);
 app.use("/doc", swaggerRouter)
+app.use(express.static("src/assets"));
+
 
 app.listen(port, () => console.log(`Servidor rodando na porta ${port}`));
