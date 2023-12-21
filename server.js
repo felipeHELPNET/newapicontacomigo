@@ -15,9 +15,8 @@ const port = process.env.PORT || 8080;
 connectDatabase();
 
 const allowedOrigins = [
-  'https://newfrontcc.vercel.app',
-  'https://newfrontcc.vercel.app/auth',
-  'https://newfrontcc-gnet9d7cv-felipehelpnet.vercel.app'
+  'newfrontcc.vercel.app',  
+  'newfrontcc-gnet9d7cv-felipehelpnet.vercel.app'
 ];
 
 app.use(
