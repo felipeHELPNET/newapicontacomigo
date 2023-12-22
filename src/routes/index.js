@@ -6,6 +6,11 @@ import swaggerRouter from "./swagger.route.js";
 
 const router = Router();
 
+router.use((req, res, next) => {
+    res.header('Cache-Control', 'public, max-age=3600');
+    next();
+  });
+
 router.use("/user", userRouter);
 router.use("/registers", registerRouter);
 router.use("/auth", authRouter);

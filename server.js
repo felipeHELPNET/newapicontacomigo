@@ -27,10 +27,6 @@ const corsOptions = {
   optionsSuccessStatus: 204,
 };
 
-app.use((req, res, next) => {
-  res.header('Cache-Control', 'public, max-age=3600');
-  next();
-});
 app.use(cors(corsOptions));
 app.use(express.static("src/assets", { extensions: ["jpg", "jpeg", "png", "gif"] }));
 app.use(express.json());
