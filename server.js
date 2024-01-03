@@ -28,7 +28,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(express.static("src/assets", { extensions: ["jpg", "jpeg", "png", "gif"] }));
+app.use(express.static("src/assets", { extensions: ["jpg", "jpeg", "png", "gif", "svg"] }));
 app.use(express.json());
 app.use("/user", userRoute);
 app.use("/auth", authRoute);
